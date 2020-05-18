@@ -33,6 +33,8 @@ const l_cyan = '\x1b[96m';	//Light Cyan
 const l_white = '\x1b[97m';	//Light White
 
 
+
+
 const blocks = ['█', '░', '🬆', '▀', "░░", '▒','█', '▀','▒',
                 '▄','▀', '▄','░','█','▄','░','█','░','▄','▀', "▓▓▓"]
 
@@ -43,9 +45,22 @@ const colors = [black, red, green, yellow, blue, magenta,
                 cyan, white, l_gray, l_red, l_green, l_yellow, 
                 l_blue, l_magenta,l_cyan, l_white]
 
+const bg = [ '\x1b[40m', '\x1b[41m',	'\x1b[42m',	
+             '\x1b[43m',	'\x1b[44m',	'\x1b[45m',	'\x1b[46m',	'\x1b[47m',	
+             '\x1b[49m',	'\x1b[100m',	 '\x1b[101m',	'\x1b[102m',	 '\x1b[103m',	 
+             '\x1b[104m',	 '\x1b[105m',	 '\x1b[106m',	'\x1b[107m',]
+const light_bg = ['\x1b[40m', '\x1b[41m',	'\x1b[42m',	
+'\x1b[43m',	'\x1b[44m',	'\x1b[45m',	'\x1b[46m',	'\x1b[47m',	
+'\x1b[49m',]
+
 const spring = [green, yellow,l_green, l_yellow]
 
 const w = process.stdout.columns
+
+function align(n){
+  if((n.length % 70) < 5)
+     n+="\n"
+}
 
 function draw () {
   setTimeout(draw, 1000)
@@ -53,6 +68,7 @@ function draw () {
 
   for (let i = 0; i < w; i++) {
     r = Math.random()
+    align(output)
     // asterisk
     if (r < 0.1) {
       output += white
@@ -64,7 +80,8 @@ function draw () {
       while (k < (i%20)){
         k++
         output += spring[(Math.round(k * r * 10) % spring.length)]
-        output += "█ "
+        output += "█ " 
+        align(output)
       }
     }
     // faces
@@ -81,6 +98,7 @@ function draw () {
         output += colors[(Math.round(k * r * 10) % colors.length)]
         output += blocks[(k% blocks.length)]
         output += "  "
+        align(output)
       }
     }
     // positive message at 3 am
@@ -88,19 +106,18 @@ function draw () {
       output += "HAVE A GREAT DAY!!"
     }
     // feasible long boi
-    else if (r < 0.32){
+    else if (r < 0.315){
       output += "█████"
-    }
-    // almost impossible long boi
-    else if (0.01 < r < 0.02){
-      output += "█████████████████████████████████████████████████████████"
     }
     // boring ned
     else {
       output += ' '
+      output += '\x1b[43m'
+      output += light_bg[(Math.round(r * 50) % light_bg.length)]
     }
   }
   console.log(output)
 }
 
 draw()
+
