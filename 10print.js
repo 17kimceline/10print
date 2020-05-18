@@ -83,15 +83,19 @@ function draw () {
         output += "  "
       }
     }
+    // positive message at 3 am
     else if ( 0.3 < r < 0.31){
       output += "HAVE A GREAT DAY!!"
     }
+    // feasible long boi
     else if (r < 0.32){
       output += "█████"
     }
+    // almost impossible long boi
     else if (0.01 < r < 0.02){
       output += "█████████████████████████████████████████████████████████"
     }
+    // boring ned
     else {
       output += ' '
     }
