@@ -41,14 +41,15 @@ const blocks = ['█', '░', '🬆', '▀', "░░", '▒','█', '▀','▒',
 const faces = ["٩(*❛⊰❛)～❤", "(◍＞◡＜◍)⋈。✧♡", "ʕ•ᴥ•ʔ", "~(˘▾˘~) ~(˘▾˘)~ (~˘▾˘)~", 
               "(ﾐ´ω`ﾐ)", "ʕ ⊃･ ◡ ･ ʔ⊃", "ᗧ···ᗣ···ᗣ··"]
 
-const colors = [black, red, green, yellow, blue, magenta, 
-                cyan, white, l_gray, l_red, l_green, l_yellow, 
-                l_blue, l_magenta,l_cyan, l_white]
+const colors = [red, green, yellow, blue, magenta, 
+                cyan, l_red, l_green, l_yellow, 
+                l_blue, l_magenta,l_cyan]
 
 const bg = [ '\x1b[40m', '\x1b[41m',	'\x1b[42m',	
              '\x1b[43m',	'\x1b[44m',	'\x1b[45m',	'\x1b[46m',	'\x1b[47m',	
              '\x1b[49m',	'\x1b[100m',	 '\x1b[101m',	'\x1b[102m',	 '\x1b[103m',	 
              '\x1b[104m',	 '\x1b[105m',	 '\x1b[106m',	'\x1b[107m',]
+
 const light_bg = ['\x1b[40m', '\x1b[41m',	'\x1b[42m',	
 '\x1b[43m',	'\x1b[44m',	'\x1b[45m',	'\x1b[46m',	'\x1b[47m',	
 '\x1b[49m',]
@@ -57,18 +58,20 @@ const spring = [green, yellow,l_green, l_yellow]
 
 const w = process.stdout.columns
 
-function align(n){
-  if((n.length % 70) < 5)
-     n+="\n"
-}
+screen = 0
 
 function draw () {
   setTimeout(draw, 1000)
+  
+  //if (screen > 5)
+  //  return
+  //screen++
   let output = magenta 
+  output += '\x1b[43m'
 
   for (let i = 0; i < w; i++) {
+
     r = Math.random()
-    align(output)
     // asterisk
     if (r < 0.1) {
       output += white
@@ -81,7 +84,6 @@ function draw () {
         k++
         output += spring[(Math.round(k * r * 10) % spring.length)]
         output += "█ " 
-        align(output)
       }
     }
     // faces
@@ -98,7 +100,6 @@ function draw () {
         output += colors[(Math.round(k * r * 10) % colors.length)]
         output += blocks[(k% blocks.length)]
         output += "  "
-        align(output)
       }
     }
     // positive message at 3 am
@@ -113,11 +114,11 @@ function draw () {
     else {
       output += ' '
       output += '\x1b[43m'
-      output += light_bg[(Math.round(r * 50) % light_bg.length)]
+      //output += light_bg[(Math.round(r * 50) % light_bg.length)]
     }
   }
   console.log(output)
+  return output
 }
 
 draw()
-
