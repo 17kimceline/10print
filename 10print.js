@@ -1,4 +1,5 @@
 /*
+  Celine Kim
   one possible implemenation of the 10print.org algorithm written in JavaScript
 */
 
@@ -32,24 +33,67 @@ const l_cyan = '\x1b[96m';	//Light Cyan
 const l_white = '\x1b[97m';	//Light White
 
 
-const blocks = ['█', '░', '🬆']
-const moorise = []
+const blocks = ['█', '░', '🬆', '▀', "░░", '▒','█', '▀','▒',
+                '▄','▀', '▄','░','█','▄','░','█','░','▄','▀', "▓▓▓"]
+
+const faces = ["٩(*❛⊰❛)～❤", "(◍＞◡＜◍)⋈。✧♡", "ʕ•ᴥ•ʔ", "~(˘▾˘~) ~(˘▾˘)~ (~˘▾˘)~", 
+              "(ﾐ´ω`ﾐ)", "ʕ ⊃･ ◡ ･ ʔ⊃", "ᗧ···ᗣ···ᗣ··"]
+
+const colors = [black, red, green, yellow, blue, magenta, 
+                cyan, white, l_gray, l_red, l_green, l_yellow, 
+                l_blue, l_magenta,l_cyan, l_white]
+
+const spring = [green, yellow,l_green, l_yellow]
+
 const w = process.stdout.columns
 
 function draw () {
-  var person = prompt("Please enter: ");
-  if (person.includes("moonrise"))
-  {
-
-  }
   setTimeout(draw, 1000)
   let output = magenta 
+
   for (let i = 0; i < w; i++) {
     r = Math.random()
-    if (Math.random() > 0.5) {
-      output += '\\'
-    } else {
-      output += '/'
+    // asterisk
+    if (r < 0.1) {
+      output += white
+      output += "*"
+    } 
+    // spring colours
+    else if (r < 0.15){
+      k = 0
+      while (k < (i%20)){
+        k++
+        output += spring[(Math.round(k * r * 10) % spring.length)]
+        output += "█ "
+      }
+    }
+    // faces
+    else if (r < 0.2){
+      output += de_fault
+      // 48 is my favourite number!
+      output += faces[Math.round((r * 48)) % faces.length]
+    }
+    // all colours
+    else if (r < 0.25){
+      k = 0
+      while(k < i){
+        k++
+        output += colors[(Math.round(k * r * 10) % colors.length)]
+        output += blocks[(k% blocks.length)]
+        output += "  "
+      }
+    }
+    else if ( 0.3 < r < 0.31){
+      output += "HAVE A GREAT DAY!!"
+    }
+    else if (r < 0.32){
+      output += "█████"
+    }
+    else if (0.01 < r < 0.02){
+      output += "█████████████████████████████████████████████████████████"
+    }
+    else {
+      output += ' '
     }
   }
   console.log(output)
